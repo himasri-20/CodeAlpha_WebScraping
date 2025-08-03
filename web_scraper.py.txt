@@ -1,0 +1,36 @@
+# Step 1: Install required libraries (run this only once)
+!pip install requests
+!pip install beautifulsoup4
+!pip install pandas
+
+# Step 2: Import libraries
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# Step 3: Send HTTP request to the website
+url = 'http://quotes.toscrape.com/'
+response = requests.get(url)
+
+# Step 4: Parse HTML content using BeautifulSoup
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Step 5: Extract quotes and authors
+quotes = []
+authors = []
+
+for quote in soup.find_all('div', class_='quote'):
+quotes.append(quote.find('span', class_='text').text)
+authors.append(quote.find('small', class_='author').text)
+
+# Step 6: Save data into a pandas DataFrame
+data = pd.DataFrame({
+'Quote': quotes,
+'Author': authors
+})
+
+# Step 7: Save the DataFrame to a CSV file
+data.to_csv('scraped_quotes.csv', index=False)
+
+# Show the data
+print(data)
