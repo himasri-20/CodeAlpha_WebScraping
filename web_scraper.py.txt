@@ -34,3 +34,4 @@ data.to_csv('scraped_quotes.csv', index=False)
 
 # Show the data
 print(data)
+
